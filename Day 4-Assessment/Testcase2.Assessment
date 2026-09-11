@@ -1,0 +1,58 @@
+package SeleniumAssessement1;
+import java.time.Duration;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+public class Testcase2 {
+public static void main(String[] args) throws InterruptedException {
+		
+		//launch the browser
+		ChromeDriver driver = new ChromeDriver();
+		
+		//maximize the browser
+		driver.manage().window().maximize();
+		
+		//implicit wait time
+		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(30));
+		
+		//naviagte to application
+		driver.get("https://www.zomato.com/bangalore/delivery");
+		
+		//locate login nutton and click
+		driver.findElement(By.xpath("//button[text()='Log in']")).click();
+		
+		//locate login frame
+		WebElement frame = driver.findElement(By.xpath("//iframe[@id='auth-login-ui']"));
+		
+		//switch to login frame
+		driver.switchTo().frame(frame);
+		
+		//locate ph no tf and enter phno
+		driver.findElement(By.xpath("//input[@type='number']")).sendKeys("7589375892");
+		
+		Thread.sleep(1000);
+		
+		//locate cancel click
+		driver.findElement(By.xpath("//i[@class='sc-rbbb40-1 cLEXmC sc-re4bd0-1 bKymEa']")).click();
+		
+		//go back to main page
+		driver.switchTo().defaultContent();
+		
+		//verify
+		WebElement text = driver.findElement(By.xpath("//h3[text()='Inspiration for your first order']"));
+			
+		if(text.isDisplayed())
+			System.out.println("main page is visible contains the text "+text.getText());
+		else
+			System.out.println("main page is not visible");
+		
+		//close the browser
+		Thread.sleep(2000);
+		driver.quit();
+	}
+
+}
+
+
