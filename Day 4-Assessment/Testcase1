@@ -1,0 +1,44 @@
+package SeleniumAssessement1;
+import java.time.Duration;
+import java.util.List;
+import org.openqa.selenium.*;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+
+public class Testcase1 {
+	public static void main(String[] args) throws InterruptedException {
+
+				//launch the browser
+				WebDriver driver = new ChromeDriver();
+				
+				//maximize the window
+				driver.manage().window().maximize();
+				
+				//implicit wait time
+				driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(30));
+				
+				//naviagte to application
+				driver.get("https://www.facebook.com/reg/?entry_point=login");
+				
+				//locate text fields
+				List<WebElement> tfs = driver.findElements(By.xpath("//input[@inputmode='text']"));
+				
+				//number og text fields
+				System.out.println("Number of text fields: "+tfs.size());
+				
+				//to get size of each text field
+				for(WebElement tf : tfs)
+				{
+					System.out.println(tf.getSize());
+					if(tf.getDomAttribute("type").equals("password"))
+						tf.sendKeys("Rashmi@453");
+				}
+
+				//close the browser
+				Thread.sleep(2000);
+				driver.quit();
+				
+			}
+
+		}
+	
