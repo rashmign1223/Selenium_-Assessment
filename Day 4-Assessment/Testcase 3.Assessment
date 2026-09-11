@@ -1,0 +1,65 @@
+package SeleniumAssessement1;
+import java.time.Duration;
+import java.util.List;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+
+public class Testcase3 {
+
+	public static void main(String[] args) throws InterruptedException {
+		
+		//launch the browser
+		WebDriver driver = new ChromeDriver();
+		
+		//maximize the browser
+		driver.manage().window().maximize();
+		
+		//implicit wait time
+		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(30));
+		
+		//naviagte to application
+		driver.get("https://www.bigbasket.com/pb/boss/");
+		
+		//locate search box and type apples
+		driver.findElement(By.xpath("(//input[@type='text'])[last()]")).sendKeys("apples");
+		Thread.sleep(1000);
+		
+		//store all the suggestions
+		List<WebElement> list = driver.findElements(By.xpath("//ul[@class='overscroll-contain']/li"));
+		
+		//iterate each suggestion until it contains Apple - Red Delicious and click add
+		for(WebElement li : list)
+		{
+			String text = li.getText();
+			
+			//search for specific product
+			if(text.contains("Apple - Red Delicious"))
+			{
+				li.findElement(By.xpath(".//button[text()='Add']")).click();
+				WebElement text1 = driver.findElement(By.xpath("//p[text()='Item has been added to your basket successfully']"));
+				
+				//verify
+				if(text1.isDisplayed())
+				{
+					System.out.println("product is added to cart successfully");
+					break;
+				}
+				else
+				{
+					System.out.println("product not added to cart");
+					break;
+				}
+			}
+		}
+		//close the browser
+		Thread.sleep(2000);
+		driver.quit();
+	}
+
+}
